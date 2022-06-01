@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AllocateOrderListener {
+public class AllocationListener {
     private final AllocationService allocationService;
     private final JmsTemplate jmsTemplate;
 
