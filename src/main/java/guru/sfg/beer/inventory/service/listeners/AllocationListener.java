@@ -1,6 +1,7 @@
-package guru.sfg.beer.inventory.service.services;
+package guru.sfg.beer.inventory.service.listeners;
 
 import guru.sfg.beer.inventory.service.config.JmsConfig;
+import guru.sfg.beer.inventory.service.services.AllocationService;
 import guru.sfg.brewery.model.events.AllocateOrderRequest;
 import guru.sfg.brewery.model.events.AllocateOrderResult;
 import lombok.RequiredArgsConstructor;

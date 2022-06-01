@@ -16,38 +16,54 @@
  */
 package guru.sfg.beer.inventory.service.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
  * Created by jt on 2019-01-26.
  */
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @Entity
-public class BeerInventory extends BaseEntity{
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class BeerInventory {
 
-    @Builder
-    public BeerInventory(UUID id, Long version, Timestamp createdDate, Timestamp lastModifiedDate, UUID beerId,
-                         String upc, Integer quantityOnHand) {
-        super(id, version, createdDate, lastModifiedDate);
-        this.beerId = beerId;
-        this.upc = upc;
-        this.quantityOnHand = quantityOnHand;
-    }
-
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Type(type="org.hibernate.type.UUIDCharType")
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false )
-    private UUID beerId;
+    private UUID id;
+
+    @Version
+    private Long version;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp createdDate;
+
+    @UpdateTimestamp
+    private Timestamp lastModifiedDate;
+
+    public boolean isNew() {
+        return this.id == null;
+    }
+
     private String upc;
-    private Integer quantityOnHand = 0;
+
+    @Type(type="org.hibernate.type.UUIDCharType")
+    @Column(length = 36, columnDefinition = "varchar(36)")
+    private UUID beerId;
+    private Integer quantityOnHand;
 }
